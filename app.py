@@ -174,7 +174,6 @@ st.write(new_df)
 # import os
 # os.chdir("C:\Users\Sharad\Desktop\files\ML\telco-customer-churn")
 
-@st.cache(allow_output_mutation=True)
 def load():
     model = tf.keras.models.load_model('final_model')
     return model
@@ -183,7 +182,12 @@ def load():
 # model = pickle.load(open('model.h5','rb'))
 model = load()
 
-prediction = model.predict(final_data.tail(1))
+data = final_data.tail(1)
+print(data)
+print(len(data))
+data = np.asarray(data).astype('float32')
+
+prediction = model.predict(data)
 
 if(prediction>0.5):
     st.markdown("### **Probability of customer churn is high!**")
